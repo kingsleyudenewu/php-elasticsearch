@@ -189,7 +189,7 @@ class Elastic
 		                    ['match' => [
 		                        'sku' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '0'
 		                        ]
 		                    ]],
 		                    ['match' => [
@@ -225,13 +225,13 @@ class Elastic
 		                    ['match' => [
 		                        'barcode' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '0'
 		                        ]
 		                    ]],
 		                    ['match' => [
 		                        'cat_name' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '0'
 		                        ]
 		                    ]],
 		                    ['match' => [
@@ -243,13 +243,13 @@ class Elastic
 		                    ['match' => [
 		                        'sub_category_name' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '0'
 		                        ]
 		                    ]],
 		                    ['match' => [
 		                        'brand_name' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '0'
 		                        ]
 		                    ]]
 		               ]
