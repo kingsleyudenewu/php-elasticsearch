@@ -142,6 +142,21 @@ class Elastic
        return true;
    	}
 
+   	public function delete_many_node($id){
+   		if(!is_array($id)) return 'Array needed and not string';
+
+   		$client = $this->elastic_client;
+   		foreach ($id as $key => $value) {
+   			# code...
+   			$params = [
+	       		'index' => 'products',
+				'type' => 'product',
+	       		'id' => $value
+	       	];
+	        $responses = $client->delete($params);
+   		}
+   	}
+
    	public function search($query){
    		if(empty($query)) return 'Invalid query selected';
 
@@ -253,6 +268,6 @@ class Elastic
            $result['result'][$i] = $response['hits']['hits'][$i]['_source'];
            $i++;
        	}
-       	return $result;
+       	return json_encode($result);
    	}
 }
