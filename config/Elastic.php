@@ -1,5 +1,5 @@
 <?php 
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 require_once 'config.php';
 
 /**
@@ -183,7 +183,7 @@ class Elastic
 		                    ['match' => [
 		                        'description' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '2'
 		                        ]
 		                    ]],
 		                    ['match' => [
@@ -195,13 +195,13 @@ class Elastic
 		                    ['match' => [
 		                        'quantity' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '0'
 		                        ]
 		                    ]],
 		                    ['match' => [
 		                        'bulk_quantity' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '0'
 		                        ]
 		                    ]],
 		                    ['match' => [
@@ -213,7 +213,7 @@ class Elastic
 		                    ['match' => [
 		                        'warranty' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '0'
 		                        ]
 		                    ]],
 		                    ['match' => [
@@ -237,7 +237,7 @@ class Elastic
 		                    ['match' => [
 		                        'cat_description' => [
 		                            'query'     => $query,
-		                            'fuzziness' => '1'
+		                            'fuzziness' => '2'
 		                        ]
 		                    ]],
 		                    ['match' => [
