@@ -10,7 +10,7 @@ class Elastic
 	private $elastic_client = null;
 	private $conn = null;
 	
-	function __construct(argument)
+	function __construct()
 	{
 		# code...
 		$this->elastic_client = Elasticsearch\ClientBuilder::create()->build();
@@ -104,7 +104,7 @@ class Elastic
 		    'body' => $data
 		];
 		$response = $client->index($params);
-		return true;
+		return json_encode($response);
 
     }
 
@@ -271,3 +271,5 @@ class Elastic
        	return json_encode($result);
    	}
 }
+
+$elastic = new Elastic();
