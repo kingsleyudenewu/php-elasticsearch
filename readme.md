@@ -15,6 +15,7 @@ A simple PHP application connecting to easymart API for the search query
     - Rename config.example.php to config.php in config folder
     - Make sure you setup elasticsearch and its running on your terminal
     - To download elasticsearc follo this link below
-    - [Elasticsearch](https://www.elastic.co/downloads/elasticsearch)
+    - [Elasticsearch](https://www.elastic.co/downloads/elasticsearch).
+    - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 </pre>
 </div>
