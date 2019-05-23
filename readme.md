@@ -9,7 +9,7 @@ A simple PHP application connecting to easymart API for the search query
 </p>  
   
 <div class="highlight">
-<pre>
+
     - Clone project
     - Run composer install
     - Rename config.example.php to config.php in config folder
@@ -17,5 +17,4 @@ A simple PHP application connecting to easymart API for the search query
     - To download elasticsearc follo this link below
     - [Elasticsearch](https://www.elastic.co/downloads/elasticsearch).
     - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-</pre>
 </div>
