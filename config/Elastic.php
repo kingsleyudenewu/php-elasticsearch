@@ -7,11 +7,13 @@ require '../vendor/autoload.php';
 class Elastic
 {
 	private $elastic_client = null;
+	private $conn = null;
 	
 	function __construct(argument)
 	{
 		# code...
 		$this->elastic_client = Elasticsearch\ClientBuilder::create()->build();
+		$this->conn = 
 	}
 
 	public function Mapping(){
@@ -84,6 +86,24 @@ class Elastic
 	        ]
 	    ];
        $this->elastic_client->indices()->create($params);
-       
+    }
+
+    public function insert_node($data){
+    	if(!is_array($data)) return 'Data must be an array';
+    	$client = $this->elastic_client;
+    	$this->Mapping();
+    	$params = [
+		    'index' => 'products',
+		    'type' => 'product',
+		    '_id' => $data['id'],
+		    'body' => $data
+		];
+		$response = $client->index($params);
+		return true;
+
+    }
+
+    public function update_node($id, $con){
+
     }
 }
