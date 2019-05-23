@@ -128,7 +128,7 @@ class Elastic
 		}
     }
 
-    public function DeleteNode($id)
+    public function delete_node($id)
    	{
    		if(empty($id)) return 'Invalid ID selected';
 
@@ -140,5 +140,119 @@ class Elastic
        	];
        $responses = $client->delete($params);
        return true;
+   	}
+
+   	public function search($query){
+   		if(empty($query)) return 'Invalid query selected';
+
+   		$client = $this->elastic_client;
+   		$result = [];
+   		$i = 0;
+
+   		$params = [
+		    'index' => 'my_first_index',
+		    'type' => 'my_first_type',
+		    'body' => [
+		        'sort' => [
+		            '_score'
+		        ],
+		        'query' => [
+		           'bool' => [
+		               'should' => [
+		                    ['match' => [
+		                        'title' => [
+		                           'query'     => $query,
+		                           'fuzziness' => '2'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'description' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'sku' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'quantity' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'bulk_quantity' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'dimension' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'warranty' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'weight' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'barcode' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'cat_name' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'cat_description' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'sub_category_name' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]],
+		                    ['match' => [
+		                        'brand_name' => [
+		                            'query'     => $query,
+		                            'fuzziness' => '1'
+		                        ]
+		                    ]]
+		               ]
+		            ],
+		        ],
+		    ]
+		];
+
+		// Return the response of the search
+		$response = $client->search($params);
+
+		$hits = sizeof($response['hits']['hits']);
+       	$hit = $response['hits']['hits'];
+       	$result['searchfound'] = $hits;
+       	while ($i < $hits) {
+           $result['result'][$i] = $response['hits']['hits'][$i]['_source'];
+           $i++;
+       	}
+       	return $result;
    	}
 }
