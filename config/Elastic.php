@@ -124,7 +124,7 @@ class Elastic
 				];
 			}
 			$response = $client->update($params);
-			return true;
+            return json_encode($response);
 		}
     }
 
@@ -139,7 +139,7 @@ class Elastic
        		'id' => $id
        	];
        $responses = $client->delete($params);
-       return true;
+        return json_encode($responses);
    	}
 
    	public function delete_many_node($id){
