@@ -119,7 +119,7 @@ class Elastic
 				$params = [
 				    'index' => 'products',
 				    'type' => 'product',
-				    '_id' => $row['id'],
+				    '_id' => $id,
 				    'body' => $row
 				];
 			}
@@ -154,6 +154,7 @@ class Elastic
 	       		'id' => $value
 	       	];
 	        $responses = $client->delete($params);
+            return json_encode($responses);
    		}
    	}
 
@@ -174,12 +175,12 @@ class Elastic
 		        'query' => [
 		           'bool' => [
 		               'should' => [
-		                    ['match' => [
-		                        'title' => [
-		                           'query'     => $query,
-		                           'fuzziness' => '2'
-		                        ]
-		                    ]],
+                           ['match' => [
+                               'title' => [
+                                   'query'     => $query,
+                                   'fuzziness' => '2'
+                               ]
+                           ]],
 		                    ['match' => [
 		                        'description' => [
 		                            'query'     => $query,
@@ -266,6 +267,7 @@ class Elastic
        	$result['searchfound'] = $hits;
        	while ($i < $hits) {
            $result['result'][$i] = $response['hits']['hits'][$i]['_source'];
+           $result['result'][$i]['_id'] = $response['hits']['hits'][$i]['_id'];
            $i++;
        	}
        	return json_encode($result);
