@@ -22,68 +22,6 @@ class Elastic
 		} 
 	}
 
-	public function Mapping(){
-	    $params = [
-	        'index' => INDEX,
-	        'body' => [
-	            'mappings' => [
-                    TYPE => [
-	                    'properties' => [
-	                        'id' => [
-	                            'type' => 'long'
-	                        ],
-	                        'title' => [
-	                            'type' => 'text'
-	                        ],
-	                        'description' => [
-	                            'type' => 'text'
-	                         
-	                        ],
-	                        'sku' => [
-	                            'type' => 'text'
-	                        ],
-	                        'quantity' => [
-	                            'type' => 'long'
-	                         
-	                        ],
-	                        'bulk_quantity' => [
-	                            'type' => 'numeric'
-	                        ],
-	                        'warranty' => [
-	                            'type' => 'text'
-	                        ],
-	                        'dimension' => [
-	                            'type' => 'text'
-	                        ],
-	                        'weight' => [
-	                            'type' => 'text'
-	                        ],
-	                        'barcode' => [
-	                            'type' => 'text'
-	                        ],
-	                        'cat_name' => [
-	                            'type' => 'text'
-	                         
-	                        ],
-	                        'cat_description' => [
-	                            'type' => 'text'
-	                         
-	                        ],
-	                        'sub_category_name' => [
-	                            'type' => 'text'
-	                         
-	                        ],
-	                        'brand_name' => [
-	                            'type' => 'text'
-	                        ],
-	                    ]
-	                ]
-	            ]
-	        ]
-	    ];
-       $this->elastic_client->indices()->create($params);
-    }
-
     public function drop_index($data){
         if(empty($data)) return 'Invalid index selected';
         $client = $this->elastic_client;
