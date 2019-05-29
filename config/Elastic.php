@@ -84,8 +84,29 @@ class Elastic
        $this->elastic_client->indices()->create($params);
     }
 
+    public function drop_index($data){
+        if(empty($data)) return 'Invalid index selected';
+        $client = $this->elastic_client;
+        $response = $client->indices()->delete($data);
+        return $response;
+    }
+
+    private function create_index(){
+        $client = $this->elastic_client;
+        $indexParams = array();
+        $indexParams['index'] = INDEX; // index is called products
+
+        // be sure that the index doesn't already exist
+        if ( !$client->indices()->exists($indexParams) ) {
+            // create index products
+            $client->indices()->create($indexParams);
+        }
+    }
+
     public function insertData(){
         $client = $this->elastic_client;
+        $this->create_index();
+
         $result = $this->conn->query("SELECT products.id, products.title, products.description, products.sku, products.bulk_quantity, products.quantity, products.dimension, products.warranty, products.weight, products.barcode, categories.name as cat_name, categories.description as cat_description, sub_categories.name as sub_category_name, brands.name as brand_name from products JOIN categories ON products.category_id = categories.id JOIN sub_categories ON products.sub_category_id = sub_categories.id JOIN sub_category_types ON products.sub_category_type_id = sub_category_types.id JOIN brands ON products.brand_id = brands.id");
 
         while ($row = $result->fetch_assoc())
@@ -97,9 +118,23 @@ class Elastic
                     '_id' => $row['id'],
                 ) ,
             );
-            $params['body'][] = ['article_name' => $row['article_name'], 'article_content' => $row['article_content'], 'article_url' => $row['url'], 'category_name' => $row['category_name'], 'username' => $row['username'], 'date' => $row['dates'], 'article_img' => $row['img'], ];
+            $params['body'][] = [
+                'id' => $row['id'],
+                'title' => $row['title'],
+                'description' => $row['description'],
+                'sku' => $row['sku'],
+                'quantity' => $row['quantity'],
+                'bulk_quantity' => $row['bulk_quantity'],
+                'dimension' => $row['dimension'],
+                'warranty' => $row['warranty'],
+                'weight' => $row['weight'],
+                'barcode' => $row['barcode'],
+                'cat_name' => $row['cat_name'],
+                'cat_description' => $row['cat_description'],
+                'sub_category_name' => $row['sub_category_name'],
+                'brand_name' => $row['brand_name']
+            ];
         }
-        $this->Mapping();
         $responses = $client->bulk($params);
         return json_encode($responses);
     }
@@ -137,11 +172,7 @@ class Elastic
 		}
     }
 
-    public function drop_index($data){
-        if(empty($data)) return 'Invalid index selected';
-        $client = $this->elastic_client;
-        $client->indices()->delete($data);
-    }
+
 
     public function delete_node($id)
    	{
